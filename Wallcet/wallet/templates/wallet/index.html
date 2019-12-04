@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand text-light ">Bienvenido a Wallcet!</a>
+        <form class="form-inline">
+            <span class="navbar-text mr-sm-2 text-muted">Crea tu monedero gratis ahora!</span>
+        </form>
+    </nav>
+    <br>
+    <br>
+    <div class="d-flex justify-content-around">
+        {################## MODAL ####################}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevaMod">Nueva Wallet</button>
+        <!-- Modal -->
+        <div class="modal fade" id="nuevaMod" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Creando cuenta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+
+                    <form action="{% url 'walletApp:paginaPrincipal' %}"  method="post">
+                        {% csrf_token %}
+
+                        <div class="modal-body">
+                            <!-- cuenta fuente -->
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Introduzca valores aleatorios para crear cuenta</label>
+                              <input name="randomness"  class="form-control" aria-describedby="emailHelp" placeholder="ej. asdg@$R@v6181/">
+                            </div>
+                            <!-- correo electrónico -->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Correo electrónico</label>
+                                <input type="email" name="imail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="ej. abcd@email.com">
+                            </div>
+                            <!-- Contraseña -->
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Contraseña</label>
+                                <input type="password" name="kontra" class="form-control" id="exampleInputPassword1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Escriba una contrasenia segura">
+                            </div>
+                            <!-- Mensajes de validacion -->
+                            <div id="message">
+                                <p id="tit">La contraseña debe contener lo siguiente:<p>
+                                <p id="letter" class="invalid">Una letra <b>minuscula</b></p>
+                                <p id="capital" class="invalid">Una letra <b>mayuscula</b></p>
+                                <p id="number" class="invalid">Un <b>numero</b></p>
+                                <p id="length" class="invalid">Minimo <b>8 caracteres</b></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="modalCrear" class="btn btn-primary">Finalizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {################## MODAL ####################}
+        {################## MODAL ####################}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#abrirW">Abrir Wallet</button>
+        <!-- Modal -->
+        <div class="modal fade" id="abrirW" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Abriedo cuenta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form action="{% url 'walletApp:paginaHome' %}"  method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <!-- correo electronico -->
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Correo electronico</label>
+                              <input type="email" name="dir_acc_opn" autocomplete="username"  class="form-control"  aria-describedby="emailHelp" placeholder="ej. abcd@email.com">
+                            </div>
+                            <!-- contrasenia -->
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Contrasenia</label>
+                              <input type="password" name="pwd_acc" autocomplete="current-password"  class="form-control"  aria-describedby="emailHelp" >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="modalAbrir" class="btn btn-primary">Abrir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {################## MODAL ####################}
+
+    </div>
+    {% load static %}
+    <img src="{% static "images/ethlog.png" %}" class="rounded mx-auto d-block"  width="600" height="600" alt="Ethereum">
+</div>
+{% endblock %}

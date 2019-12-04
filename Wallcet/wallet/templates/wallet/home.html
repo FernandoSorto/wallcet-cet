@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand text-light ">Bienvenido {{e_mail}}!</a>
+        <form class="form-inline">
+            <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'walletApp:paginaPrincipal' %}">Salir</a>
+        </form>
+    </nav>
+    <br>
+    <br>
+    <div class="d-flex justify-content-around">
+        {################## MODAL ####################}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nuevaCuen">Agregar cuenta</button>
+        <!-- Modal -->
+        <div class="modal fade" id="nuevaCuen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Creando cuenta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form action=""  method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <!-- cuenta fuente -->
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Introduzca valores aleatorios para aumentar aleatoriedad</label>
+                              <input name="randomness"  class="form-control" aria-describedby="emailHelp" placeholder="ej. asdg@$R@v6181/">
+                            </div>
+                            <!-- Llave privada -->
+                            <div class="form-group">
+                              <input type="hidden" name="emai" autocomplete="current-password" enable="false" type="password" class="form-control" aria-describedby="emailHelp" value="{{e_mail}}" placeholder="0x0" >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="modalCrearCuen" class="btn btn-primary">Finalizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {################## MODAL ####################}
+        {################## MODAL ####################}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#enviarEth">Enviar ETH</button>
+        <!-- Modal -->
+        <div class="modal fade" id="enviarEth" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Enviar ETH a cuenta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <form action="{% url 'walletApp:paginaHome' %}"  method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <!-- cuenta fuente -->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Cuenta fuente</label>
+                                <input name="cuenta_fuente" autocomplete="username"  class="form-control"  aria-describedby="emailHelp" placeholder="0x0" value="{{addr_account}}" >
+                            </div>
+                            <!-- Llave privada -->
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Llave privada</label>
+                                <input name="llave_privada" autocomplete="current-password" enable="false" type="password" class="form-control" aria-describedby="emailHelp"  placeholder="0x0" >
+                            </div>
+                            <!-- cuenta destino -->
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Cuenta destino</label>
+                              <input name="cuenta_destino"  class="form-control" aria-describedby="emailHelp" placeholder="0x0">
+                              <small class="form-text text-muted">Debe establecer la direccion de la cuenta destino</small>
+                            </div>
+                            <!-- cantidad -->
+                            <div class="form-group">
+                              <label for="exampleInputPassword1">Cantidad</label>
+                              <input name="cantidad_eth" class="form-control" placeholder="0.000 ETH">
+                            </div>
+                            <!-- Llave privada -->
+                            <div class="form-group">
+                              <input type="hidden" name="emai" autocomplete="current-password" enable="false" type="password" class="form-control" aria-describedby="emailHelp" value="{{e_mail}}" placeholder="0x0" >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" name="modalEnviar" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {################## MODAL ####################}
+
+        {# donaciones a traves de la pasarela de pago coinbase #}
+        <div>
+            <a class="donate-with-crypto " href="https://commerce.coinbase.com/checkout/b9dab00f-f281-4199-8daf-19b42d521d48">
+                <span>Donate with Crypto</span>
+            </a>
+
+        </div>
+
+    </div>
+    <br>
+
+    <!-- Tabla de cuentas -->
+    <div class="d-flex justify-content-around">
+        <table class="table table-bordered">
+            <thead >
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Cuenta</th>
+                    <th scope="col">Llave</th>
+                    <th scope="col">Balance</th>
+                </tr>
+            </thead>
+            {% for acc in account_list %}
+            <tr>
+              <td scope="row">{{forloop.counter}}</td>
+              <td>{{acc.llavePublica}}</td>
+              <td>
+                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#priv{{forloop.counter}}" aria-expanded="false" aria-controls="collapseExample">
+                      Mostrar
+                  </button>
+                  <div class="collapse" id="priv{{forloop.counter}}">
+                      <div class="card card-body">
+                          {{acc.llavePrivada}}
+                      </div>
+                  </div>
+
+              </td>
+              <td>{{acc.balance}} ETH</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand text-light ">Cuenta creada exitosamente!</a>
+    </nav>
+    <br>
+    <div class="d-flex justify-content-around">
+        <form action="{% url 'walletApp:paginaHome' %}"   method="post">
+            {% csrf_token %}
+            <div class="text-center">
+                <!-- Llave privada -->
+                <div class="form-group">
+                  <input type="hidden" name="emai" autocomplete="current-password" enable="false" type="password" class="form-control" aria-describedby="emailHelp" value="{{e_mail}}" placeholder="0x0" >
+                </div>
+                <h1>Credenciales:</h1>
+                <br>
+                <div class="d-inline-block ">
+                    <p class="font-weight-bold">Usuario:&nbsp </p>
+                </div>
+                <div class="d-inline-block ">
+                    <p class="font-weight-light">{{e_mail}}</p>
+                </div>
+                <br>
+                <div class="d-inline-block ">
+                    <p class="font-weight-bold">Constrasenia:&nbsp </p>
+                </div>
+                <div class="d-inline-block ">
+                    <p class="font-weight-light">{{contrasenia}}</p>
+                </div>
+                <br>
+                <hr style="border-top: 1.5px dotted brown">
+                <p>Guarda tus credenciales cuidadosamente ya que si las pierdes, no las podrar recuperar!</p>
+                <hr style="border-top: 1.5px dotted brown">
+                <br>
+                <button type="submit"  name="bSiguiente"   class="btn btn-primary">Siguiente</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
